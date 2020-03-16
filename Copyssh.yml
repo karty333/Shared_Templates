@@ -1,0 +1,34 @@
+parameters:
+  - name: sshEndpoint
+    default: 'SSH'
+  - name: sourceFolder
+    default: '$(Pipeline.Workspace)/ScannedArtifacts/'
+  - name: contents
+    default: '*.war'
+  - name: targetFolder
+    default: '/opt/demo/' 
+  - name: cleanTargetFolder
+    default: false
+  - name: overwrite
+    default: true
+  - name: failOnEmptySource
+    default: true
+  - name: flattenFolders
+    default: true
+stages:
+- stage: CopyArtifacts
+  jobs:
+  - job: CopyArtifacts
+    steps:
+    - download: current
+      artifact: ScannedArtifacts
+    - task: CopyFilesOverSSH@0
+      inputs:
+        sshEndpoint: ${{ parameters.sshEndpoint }}
+        sourceFolder: ${{ parameters.sourceFolder }}
+        contents: ${{ parameters.contents }}
+        targetFolder: ${{ parameters.targetFolder }}
+        cleanTargetFolder: ${{ parameters.cleanTargetFolder }}
+        overwrite: ${{ parameters.overwrite }}
+        failOnEmptySource: ${{ parameters.failOnEmptySource }}
+        flattenFolders: ${{ parameters.flattenFolders }}

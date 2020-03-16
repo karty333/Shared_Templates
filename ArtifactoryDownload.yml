@@ -1,0 +1,43 @@
+parameters:
+  - name: artifactoryService
+    default: 'Artifactory'
+  - name: specSource
+    default: 'taskConfiguration'
+  - name: collectBuildInfo
+    default: true
+  - name: buildName
+    default: $(Build.DefinitionName) 
+  - name: buildNumber
+    default: $(Build.BuildNumber)
+  - name: failNoOp
+    default: true
+stages:
+- stage: Artifactory_Download
+  jobs:
+  - job: Build_Artifact_Download
+    variables:
+    - group: Artifactory_Variables
+    steps:
+     - task: ArtifactoryGenericDownload@2
+       displayName: 'Download scanned artifacts from Jfrog'
+       inputs:
+        connection: ${{ parameters.artifactoryService }}
+        specSource: ${{ parameters.specSource }}
+        ${{ if eq(parameters['specSource'], 'taskConfiguration') }}:
+          fileSpec: |
+           {
+            "files": [
+              {
+                "pattern": "$(Download_src_lctn)",
+                "target": "$(Download_dest_lctn)"
+              }
+            ]
+           }
+        ${{ if ne(parameters['specSource'], 'taskConfiguration') }}:
+          file: $(File_lctn)
+        collectBuildInfo: ${{ parameters.collectBuildInfo }}
+        buildName: ${{ parameters.buildName }}
+        buildNumber: ${{ parameters.buildNumber }}
+        failNoOp: ${{ parameters.failNoOp }}
+     - publish: "$(System.DefaultWorkingDirectory)/$(Scanned_artifact_lctn)"
+       artifact: $(Scanned_Artifact_Name)

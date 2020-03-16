@@ -1,0 +1,41 @@
+parameters:
+  - name: buildFile
+    default: build.xml
+  - name: options
+    default: ' '
+  - name: targets
+    default: ' '
+  - name: antHomeDirectory
+    default: ' '
+  - name: jdkDirectory
+    default: ' '
+  - name: javaHomeOption
+    default: 'JDKVersion'
+  - name: jdkVersionOption
+    default: 'default'
+  - name: jdkUserInputDirectory
+    default: ' '
+  - name: publishJUnitResults
+    default: true
+  - name: testResultsFiles
+    default: '**/TEST-*.xml'
+
+stages:
+- stage: Build
+  jobs:
+  - job: AntBuild
+    steps:
+    - task: Ant@1
+      inputs:
+       buildFile: ${{ parameters.buildFile }}
+       javaHomeOption: ${{ parameters.javaHomeOption }}
+       jdkVersionOption: ${{ parameters.jdkVersionOption }}
+       options: ${{ parameters.options }}
+       targets: ${{ parameters.targets }}
+       antHomeDirectory: ${{ parameters.antHomeDirectory }}
+       jdkDirectory: ${{ parameters.jdkDirectory }}
+       jdkUserInputDirectory: ${{ parameters.jdkUserInputDirectory }}
+       publishJUnitResults: ${{ parameters.publishJUnitResults }}
+       testResultsFiles: ${{ parameters.testResultsFiles }}
+
+
