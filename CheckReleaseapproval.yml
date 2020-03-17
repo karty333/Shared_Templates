@@ -15,6 +15,6 @@ stages:
 - stage: Deployment
   jobs:
   - job: Deployment_Dev
-   environment: 'qa-hello'
-    steps:
+    environment: 'qa-hello'
+     steps:
        - script: echo 'hi'
