@@ -16,5 +16,8 @@ stages:
   jobs:
   - deployment: qa_deploy
     environment: 'qa-hello'
-     steps:
-       - script: echo 'hi'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "hello, qa world !!!"
