@@ -14,7 +14,7 @@ parameters:
 stages:
 - stage: Deployment
   jobs:
-  - job: Deployment_Dev
+  - deployment: qa_deploy
     environment: 'qa-hello'
      steps:
        - script: echo 'hi'
