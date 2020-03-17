@@ -16,4 +16,4 @@ stages:
   jobs:
   - job: Deployment_Dev
     steps:
-       - Script: echo 'hi'
+       - script: echo 'hi'
