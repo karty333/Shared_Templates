@@ -1,0 +1,19 @@
+parameters:
+  - name: sshEndpoint
+    default: 'SSH'
+  - name: runOptions
+    default: 'commands'
+  - name: commands
+    default: ' '
+  - name: scriptPath
+    default: ' ' 
+  - name: inline
+    default: ' '
+  - name: failOnStdErr
+    default: true
+stages:
+- stage: Deployment
+  jobs:
+  - job: Deployment_Dev
+    steps:
+       - Script: echo 'hi'
