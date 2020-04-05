@@ -3,12 +3,6 @@ parameters:
     default: 'Artifactory'
   - name: specSource
     default: 'taskConfiguration'
-  - name: collectBuildInfo
-    default: true
-  - name: buildName
-    default: $(Build.DefinitionName) 
-  - name: buildNumber
-    default: $(Build.BuildNumber)
   - name: Artifact_Version
     default: ''
   - name: failNoOp
