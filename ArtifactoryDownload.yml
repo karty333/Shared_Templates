@@ -9,6 +9,8 @@ parameters:
     default: $(Build.DefinitionName) 
   - name: buildNumber
     default: $(Build.BuildNumber)
+  - name: Artifact_Version
+    default: ''
   - name: failNoOp
     default: true
 stages:
@@ -18,7 +20,7 @@ stages:
     variables:
     - group: Artifactory_Variables
     steps:
-     - script: echo $(Download_src_lctn)
+     - script: echo ${{ parameters.Artifact_version }}
      - task: ArtifactoryGenericDownload@2
        displayName: 'Download scanned artifacts from Jfrog'
        inputs:
