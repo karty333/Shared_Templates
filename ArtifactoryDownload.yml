@@ -38,5 +38,5 @@ stages:
         ${{ if ne(parameters['specSource'], 'taskConfiguration') }}:
           file: $(File_lctn)
         failNoOp: ${{ parameters.failNoOp }}
-     - publish: "$(System.DefaultWorkingDirectory)/$(Scanned_artifact_lctn)/${{ parameters.Artifact_version }}/project-1.0-RAMA.war"
+     - publish: "$(System.DefaultWorkingDirectory)/$(Scanned_artifact_lctn)/${{ parameters.Artifact_version }}"
        artifact: $(Scanned_Artifact_Name)
