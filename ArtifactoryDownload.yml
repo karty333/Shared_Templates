@@ -20,7 +20,6 @@ stages:
     variables:
     - group: Artifactory_Variables
     steps:
-     - script: echo ${{ parameters.Artifact_version }}
      - task: ArtifactoryGenericDownload@2
        displayName: 'Download scanned artifacts from Jfrog'
        inputs:
@@ -31,7 +30,7 @@ stages:
            {
             "files": [
               {
-                "pattern": "$(Download_src_lctn)",
+                "pattern": "$(Download_src_lctn)/${{ parameters.Artifact_version }}/*",
                 "target": "$(Download_dest_lctn)"
               }
             ]
@@ -42,5 +41,5 @@ stages:
         buildName: ${{ parameters.buildName }}
         buildNumber: ${{ parameters.buildNumber }}
         failNoOp: ${{ parameters.failNoOp }}
-     - publish: "$(System.DefaultWorkingDirectory)/$(Scanned_artifact_lctn)"
+     - publish: "$(System.DefaultWorkingDirectory)/$(Scanned_artifact_lctn)/${{ parameters.Artifact_version }}/*"
        artifact: $(Scanned_Artifact_Name)
