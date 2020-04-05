@@ -41,5 +41,5 @@ stages:
         buildName: ${{ parameters.buildName }}
         buildNumber: ${{ parameters.buildNumber }}
         failNoOp: ${{ parameters.failNoOp }}
-     - publish: "$(System.DefaultWorkingDirectory)/$(Scanned_artifact_lctn)/${{ parameters.Artifact_version }}/*"
+     - publish: "$(System.DefaultWorkingDirectory)/$(Scanned_artifact_lctn)/${{ parameters.Artifact_version }}/project-1.0-RAMA.war"
        artifact: $(Scanned_Artifact_Name)
