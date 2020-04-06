@@ -3,6 +3,8 @@ parameters:
     default: 'Artifactory'
   - name: specSource
     default: 'taskConfiguration'
+  - name: Artifactory_variable_Group
+    default: 'Artifactory_Variables'
   - name: Artifact_Version
     default: ''
   - name: failNoOp
@@ -12,7 +14,7 @@ stages:
   jobs:
   - job: Build_Artifact_Download
     variables:
-    - group: Artifactory_Variables
+    - group: ${{ parameters.Artifactory_variable_Group }}
     steps:
      - task: ArtifactoryGenericDownload@2
        displayName: 'Download scanned artifacts from Jfrog'
