@@ -1,0 +1,53 @@
+parameters:
+  - name: mavenPomFile
+    default: pom.xml
+  - name: options        # Optional
+    default: ' '
+  - name: goals # Optional
+    default: package 
+  - name: jdkDirectory     # Required when javaHomeOption == Path
+    default: ' '
+  - name: javaHomeOption       # Options: jDKVersion, path
+    default: 'JDKVersion'
+  - name: jdkVersionOption       # Optional. Options: default, 1.11, 1.10, 1.9, 1.8, 1.7, 1.6
+    default: 'default'
+  - name: mavenDirectory     # Required when mavenVersionOption == Path
+    default: ' '  
+  - name: mavenVersionOption    # Options: default, path
+    default: 'default'
+  - name: mavenSetM2Home      # Required when mavenVersionOption == Path
+    default: false
+  - name: publishJUnitResults   
+    default: true
+  - name: testResultsFiles  # Required when publishJUnitResults == True
+    default: '**/surefire-reports/TEST-*.xml'
+stages:
+- stage: Build
+  jobs:
+  - job: MavenBuild
+    variables:
+    - group: Artifactory_Variables
+    steps:
+    - task: Maven@3
+      displayName: 'Maven Build'
+      inputs:
+        goals: ${{ parameters.goals }}
+        mavenPomFile: ${{ parameters.mavenPomFile }}
+        javaHomeOption: ${{ parameters.javaHomeOption }}
+        jdkVersionOption: ${{ parameters.jdkVersionOption }}      # Optional. Options: default, 1.11, 1.10, 1.9, 1.8, 1.7, 1.6
+        jdkDirectory: ${{ parameters.jdkDirectory }}              # Required when javaHomeOption == Path
+        mavenDirectory: ${{ parameters.mavenDirectory }}          # Required when mavenVersionOption == Path
+        mavenVersionOption: ${{ parameters.mavenVersionOption }}  # Options: default, path
+        mavenSetM2Home: ${{ parameters.mavenSetM2Home }}           # Required when mavenVersionOption == Path
+        options: ${{ parameters.options }}                                
+        publishJUnitResults: ${{ parameters.publishJUnitResults }}
+        testResultsFiles: ${{ parameters.testResultsFiles }}               # Required when publishJUnitResults == True
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+      inputs:
+       Contents: "$(build_artifact_Path)"
+       TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: $(PlneArtifact_Name)'
+      inputs:
+       ArtifactName: $(PlneArtifact_Name)
