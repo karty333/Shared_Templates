@@ -9,6 +9,8 @@ parameters:
     default: ''
   - name: failNoOp
     default: true
+    # Publish build artifacts
+   # Publish build artifacts to Azure Pipelines or a Windows file share
 stages:
 - stage: Artifactory_Download
   jobs:
@@ -16,7 +18,7 @@ stages:
     variables:
     - group: ${{ parameters.Artifactory_variable_Group }}
     steps:
-     - task: ArtifactoryGenericDownload@2
+     - task: ArtifactoryGenericDownload@2                 #Required when publishLocation == FilePath
        displayName: 'Download scanned artifacts from Jfrog'
        inputs:
         connection: ${{ parameters.artifactoryService }}
@@ -27,7 +29,7 @@ stages:
             "files": [
               {
                 "pattern": "$(Download_src_lctn)/${{ parameters.Artifact_version }}/*",
-                "target": "$(Download_dest_lctn)"
+                "target": "$(Download_dest_lctn)"           #Required when publishLocation == FilePath
               }
             ]
            }
