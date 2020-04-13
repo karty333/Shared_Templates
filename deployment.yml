@@ -25,4 +25,4 @@ stages:
           scriptPath: ${{ parameters.scriptPath }}
           inline: ${{ parameters.inline }}
           args: ${{ parameters.args }}
-          failOnStdErr: ${{ parameters.failOnStdErr }}
+          failOnStdErr: ${{ parameters.failOnStdErr }}  # Optional
