@@ -1,11 +1,11 @@
 parameters:
   - name: buildFile
     default: build.xml
-  - name: options
+  - name: options       # Optional
     default: ' '
-  - name: targets
+  - name: targets         # Optional
     default: ' '
-  - name: antHomeDirectory
+  - name: antHomeDirectory  # Optional
     default: ' '
   - name: jdkDirectory
     default: ' '
@@ -13,11 +13,11 @@ parameters:
     default: 'JDKVersion'
   - name: jdkVersionOption
     default: 'default'
-  - name: jdkUserInputDirectory
+  - name: jdkUserInputDirectory  # Required when javaHomeOption == Path
     default: ' '
   - name: publishJUnitResults
     default: true
-  - name: testResultsFiles
+  - name: testResultsFiles  # Required when publishJUnitResults == True
     default: '**/TEST-*.xml'
 
 stages:
@@ -28,14 +28,14 @@ stages:
     - task: Ant@1
       inputs:
        buildFile: ${{ parameters.buildFile }}
-       javaHomeOption: ${{ parameters.javaHomeOption }}
-       jdkVersionOption: ${{ parameters.jdkVersionOption }}
-       options: ${{ parameters.options }}
-       targets: ${{ parameters.targets }}
-       antHomeDirectory: ${{ parameters.antHomeDirectory }}
+       javaHomeOption: ${{ parameters.javaHomeOption }}                  # Options: jDKVersion, path
+       jdkVersionOption: ${{ parameters.jdkVersionOption }}              # Optional. Options: default, 1.11, 1.10, 1.9, 1.8, 1.7, 1.6
+       options: ${{ parameters.options }}                                # Optional
+       targets: ${{ parameters.targets }}                                # Optional
+       antHomeDirectory: ${{ parameters.antHomeDirectory }}              # Optional
        jdkDirectory: ${{ parameters.jdkDirectory }}
-       jdkUserInputDirectory: ${{ parameters.jdkUserInputDirectory }}
+       jdkUserInputDirectory: ${{ parameters.jdkUserInputDirectory }}    # Required when javaHomeOption == Path
        publishJUnitResults: ${{ parameters.publishJUnitResults }}
-       testResultsFiles: ${{ parameters.testResultsFiles }}
+       testResultsFiles: ${{ parameters.testResultsFiles }}              # Required when publishJUnitResults == True
 
 
