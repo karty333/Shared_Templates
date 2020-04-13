@@ -7,14 +7,17 @@ parameters:
     default: '*.war'
   - name: targetFolder
     default: '/opt/demo/' 
-  - name: cleanTargetFolder
+  - name: cleanTargetFolder   # Optional
     default: false
-  - name: overwrite
+  - name: overwrite           # Optional
     default: true
-  - name: failOnEmptySource
+  - name: failOnEmptySource      # Optional 
     default: true
-  - name: flattenFolders
+  - name: flattenFolders        # Optional
     default: true
+ # Copy files over SSH
+  # Copy files or build artifacts to a remote machine over SSH   
+ 
 stages:
 - stage: CopyArtifacts
   jobs:
@@ -28,7 +31,7 @@ stages:
         sourceFolder: ${{ parameters.sourceFolder }}
         contents: ${{ parameters.contents }}
         targetFolder: ${{ parameters.targetFolder }}
-        cleanTargetFolder: ${{ parameters.cleanTargetFolder }}
-        overwrite: ${{ parameters.overwrite }}
-        failOnEmptySource: ${{ parameters.failOnEmptySource }}
-        flattenFolders: ${{ parameters.flattenFolders }}
+        cleanTargetFolder: ${{ parameters.cleanTargetFolder }}        # Optional
+        overwrite: ${{ parameters.overwrite }}                         # Optional
+        failOnEmptySource: ${{ parameters.failOnEmptySource }}        # Optional
+        flattenFolders: ${{ parameters.flattenFolders }}         # Optional
