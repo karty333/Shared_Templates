@@ -11,8 +11,12 @@ parameters:
     default: 'Artifactory_Variables' 
   - name: buildNumber
     default: $(Build.BuildNumber)
-  - name: failNoOp
+  - name: failNoOp                     #Optional
     default: true
+    
+    # Publish build artifacts
+# Publish build artifacts to Azure Pipelines or a Windows file share
+
 stages:
 - stage: Artifactory_Upload_and_Scan
   jobs:
@@ -25,7 +29,7 @@ stages:
      - task: ArtifactoryGenericUpload@1
        displayName: 'Upload artifacts to Jfrog'
        inputs:
-        artifactoryService: ${{ parameters.artifactoryService }}
+        artifactoryService: ${{ parameters.artifactoryService }}        #Artifactory supports all major packages
         specSource: ${{ parameters.specSource }}
         ${{ if eq(parameters['specSource'], 'taskConfiguration') }}:
           fileSpec: |
