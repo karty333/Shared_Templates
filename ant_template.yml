@@ -11,7 +11,7 @@ parameters:
     default: 'JDKVersion'  #by manually entering a JDK path. 
   - name: jdkVersionOption #(Optional) Will attempt to discover the path to the selected JDK version and set JAVA_HOME accordingly. 
     default: 'default'     
-  - name: jdkUserInputDirectory  #(Required) when javaHomeOption == Path Sets JAVA_HOME_PATH to the given path 
+  - name: jdkUserInputDirectory  #(Required) when javaHomeOption == Path Sets JAVA_HOME to the given path 
     default: ' '
   - name: publishJUnitResults  #(optional) Select this option to publish JUnit test results 
     default: true
