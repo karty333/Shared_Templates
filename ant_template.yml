@@ -15,7 +15,7 @@ parameters:
     default: ' '
   - name: publishJUnitResults  #(optional) Select this option to publish JUnit test results 
     default: true
-  - name: testResultsFiles  # Required when publishJUnitResults == True
+  - name: testResultsFiles  #(Required) when publishJUnitResults == True
     default: '**/TEST-*.xml'
 
 stages:
