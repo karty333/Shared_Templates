@@ -1,21 +1,19 @@
 parameters:
-  - name: buildFile
+  - name: buildFile        #(Required) Relative path from the repository root to the Ant build file
     default: build.xml
-  - name: options       # Optional
+  - name: options          #(Optional) Options that you want to pass to the Ant command line
     default: ' '
-  - name: targets         # Optional
+  - name: targets          #(Optional) Target(s) for Ant to execute for this build.
     default: ' '
-  - name: antHomeDirectory  # Optional
+  - name: antHomeDirectory #(Optional) If set, overrides any existing ANT_HOME environment variable with the given path.
     default: ' '
-  - name: jdkDirectory
+  - name: javaHomeOption   #(Required) Sets JAVA_HOME either by selecting a JDK version that will be discovered during builds or 
+    default: 'JDKVersion'  #by manually entering a JDK path. 
+  - name: jdkVersionOption #(Optional) Will attempt to discover the path to the selected JDK version and set JAVA_HOME accordingly. 
+    default: 'default'     
+  - name: jdkUserInputDirectory  #(Required) when javaHomeOption == Path Sets JAVA_HOME_PATH to the given path 
     default: ' '
-  - name: javaHomeOption
-    default: 'JDKVersion'
-  - name: jdkVersionOption
-    default: 'default'
-  - name: jdkUserInputDirectory  # Required when javaHomeOption == Path
-    default: ' '
-  - name: publishJUnitResults
+  - name: publishJUnitResults  #(optional) Select this option to publish JUnit test results 
     default: true
   - name: testResultsFiles  # Required when publishJUnitResults == True
     default: '**/TEST-*.xml'
@@ -28,14 +26,14 @@ stages:
     - task: Ant@1
       inputs:
        buildFile: ${{ parameters.buildFile }}
-       javaHomeOption: ${{ parameters.javaHomeOption }}                  # Options: jDKVersion, path
-       jdkVersionOption: ${{ parameters.jdkVersionOption }}              # Optional. Options: default, 1.11, 1.10, 1.9, 1.8, 1.7, 1.6
-       options: ${{ parameters.options }}                                # Optional
-       targets: ${{ parameters.targets }}                                # Optional
-       antHomeDirectory: ${{ parameters.antHomeDirectory }}              # Optional
+       javaHomeOption: ${{ parameters.javaHomeOption }}                  
+       jdkVersionOption: ${{ parameters.jdkVersionOption }}              
+       options: ${{ parameters.options }}                                
+       targets: ${{ parameters.targets }}                                
+       antHomeDirectory: ${{ parameters.antHomeDirectory }}              
        jdkDirectory: ${{ parameters.jdkDirectory }}
-       jdkUserInputDirectory: ${{ parameters.jdkUserInputDirectory }}    # Required when javaHomeOption == Path
+       jdkUserInputDirectory: ${{ parameters.jdkUserInputDirectory }}    
        publishJUnitResults: ${{ parameters.publishJUnitResults }}
-       testResultsFiles: ${{ parameters.testResultsFiles }}              # Required when publishJUnitResults == True
+       testResultsFiles: ${{ parameters.testResultsFiles }}              
 
 
