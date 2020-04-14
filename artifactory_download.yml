@@ -1,13 +1,13 @@
 parameters:
   - name: artifactoryService  #(Required) Service connection name used to communicate with Jfrog artifactory
     default: 'Artifactory'   
-  - name: specSource          #(Required) Path of build artifacts to be published to jfrog artifactory
+  - name: specSource          #(Required) Path for build artifacts to be downloaded from jfrog artifactory
     default: 'taskConfiguration'
   - name: Artifactory_variable_Group #(Required) Contains variables related to Jforg artifactory in variable group
     default: 'Artifactory_Variables'
-  - name: Artifact_Version #(Required) This will take build number by default, if requires any modification other than 
-    default: ''            #build number we need to pass the value
-  - name: failNoOp   #(Required) This will fail the piupeline execution if no files uploaded to Jfrog artifactory
+  - name: Artifact_Version #(Required) This will use the artifact version mentioned in release pipeline to download appropriate 
+    default: ''            # artifacts from Jfrog artifactory
+  - name: failNoOp   #(Required) This will fail the pipeline execution if no files downloaded from Jfrog artifactory
     default: true
 stages:
 - stage: Artifactory_Download
