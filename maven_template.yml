@@ -1,25 +1,25 @@
 parameters:
-  - name: mavenPomFile
+  - name: mavenPomFile #(Required) Relative path from the repository root to the Maven POM file.
     default: pom.xml
-  - name: options        # Optional
+  - name: options      #(Optional) Specify any Maven command-line options you want to use.
     default: ' '
-  - name: goals # Optional
+  - name: goals #(Required) Specify the goal type of maven life cycle requires to compile the code.
     default: package 
-  - name: jdkDirectory     # Required when javaHomeOption == Path
+  - name: jdkDirectory     #(Required) when javaHomeOption == Path, Sets JAVA_HOME to the given path. 
     default: ' '
-  - name: javaHomeOption       # Options: jDKVersion, path
+  - name: javaHomeOption       #(Options): jDKVersion, path. Sets Java Home by Jdk version or Path.
     default: 'JDKVersion'
-  - name: jdkVersionOption       # Optional. Options: default, 1.11, 1.10, 1.9, 1.8, 1.7, 1.6
-    default: 'default'
-  - name: mavenDirectory     # Required when mavenVersionOption == Path
+  - name: jdkVersionOption  #(Optional). Options: default, 1.11, 1.10, 1.9, 1.8, 1.7, 1.6 (Optional) Will attempt to discover the path 
+    default: 'default'      #to the selected JDK version and set JAVA_HOME accordingly. 
+  - name: mavenDirectory     #(Required) when mavenVersionOption == Path Sets the maven home path
     default: ' '  
-  - name: mavenVersionOption    # Options: default, path
+  - name: mavenVersionOption    #(Options:) default, path, Sets Maven Home by Maven version or Path.
     default: 'default'
-  - name: mavenSetM2Home      # Required when mavenVersionOption == Path
+  - name: mavenSetM2Home      #(Required) when mavenVersionOption == Path
     default: false
-  - name: publishJUnitResults   
+  - name: publishJUnitResults #(Required) for publishing Junit result
     default: true
-  - name: testResultsFiles  # Required when publishJUnitResults == True
+  - name: testResultsFiles  #(Required) when publishJUnitResults == True
     default: '**/surefire-reports/TEST-*.xml'
 stages:
 - stage: Build
@@ -34,14 +34,14 @@ stages:
         goals: ${{ parameters.goals }}
         mavenPomFile: ${{ parameters.mavenPomFile }}
         javaHomeOption: ${{ parameters.javaHomeOption }}
-        jdkVersionOption: ${{ parameters.jdkVersionOption }}      # Optional. Options: default, 1.11, 1.10, 1.9, 1.8, 1.7, 1.6
-        jdkDirectory: ${{ parameters.jdkDirectory }}              # Required when javaHomeOption == Path
-        mavenDirectory: ${{ parameters.mavenDirectory }}          # Required when mavenVersionOption == Path
-        mavenVersionOption: ${{ parameters.mavenVersionOption }}  # Options: default, path
-        mavenSetM2Home: ${{ parameters.mavenSetM2Home }}           # Required when mavenVersionOption == Path
+        jdkVersionOption: ${{ parameters.jdkVersionOption }}      
+        jdkDirectory: ${{ parameters.jdkDirectory }}              
+        mavenDirectory: ${{ parameters.mavenDirectory }}          
+        mavenVersionOption: ${{ parameters.mavenVersionOption }}  
+        mavenSetM2Home: ${{ parameters.mavenSetM2Home }}          
         options: ${{ parameters.options }}                                
         publishJUnitResults: ${{ parameters.publishJUnitResults }}
-        testResultsFiles: ${{ parameters.testResultsFiles }}               # Required when publishJUnitResults == True
+        testResultsFiles: ${{ parameters.testResultsFiles }}               
     - task: CopyFiles@2
       displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
       inputs:
