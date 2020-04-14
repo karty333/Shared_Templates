@@ -1,17 +1,17 @@
 parameters:
-  - name: sshEndpoint
+  - name: sshEndpoint   #(Required) Name of the SSH service connection to remote server
     default: 'SSH'
-  - name: runOptions
+  - name: runOptions   #(Required) To choose the runOptions Options: commands, script, inline
     default: 'commands'
-  - name: commands
+  - name: commands #(Required) if runOptions == commands
     default: ' '
-  - name: scriptPath
+  - name: scriptPath #(Required) if runOptions == script
     default: ' ' 
-  - name: inline
+  - name: inline #(Required) if runOptions == inline
     default: ' '
-  - name: args
+  - name: args #(Optional) To pass the arguments to shell script if runOptions == script
     default: ' '
-  - name: failOnStdErr
+  - name: failOnStdErr #(Required) To fail the pipeline when error occurs while executing commands or scripts.
     default: true
 stages:
 - stage: Deployment
@@ -27,4 +27,4 @@ stages:
           scriptPath: ${{ parameters.scriptPath }}
           inline: ${{ parameters.inline }}
           args: ${{ parameters.args }}
-          failOnStdErr: ${{ parameters.failOnStdErr }}  # Optional
+          failOnStdErr: ${{ parameters.failOnStdErr }}
