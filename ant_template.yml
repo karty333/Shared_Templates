@@ -3,7 +3,7 @@ parameters:
     default: build.xml
   - name: options          #(Optional) Options that you want to pass to the Ant command line
     default: ' '
-  - name: targets          #(Optional) Target(s) for Ant to execute for this build.
+  - name: targets          #(Required) Target(s) for Ant to execute for this build.
     default: ' '
   - name: antHomeDirectory #(Optional) If set, overrides any existing ANT_HOME environment variable with the given path.
     default: ' '
