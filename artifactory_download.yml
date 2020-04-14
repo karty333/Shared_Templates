@@ -1,16 +1,14 @@
 parameters:
-  - name: artifactoryService
-    default: 'Artifactory'
-  - name: specSource
+  - name: artifactoryService  #(Required) Service connection name used to communicate with Jfrog artifactory
+    default: 'Artifactory'   
+  - name: specSource          #(Required) Path of build artifacts to be published to jfrog artifactory
     default: 'taskConfiguration'
-  - name: Artifactory_variable_Group
+  - name: Artifactory_variable_Group #(Required) Contains variables related to Jforg artifactory in variable group
     default: 'Artifactory_Variables'
-  - name: Artifact_Version
-    default: ''
-  - name: failNoOp
+  - name: Artifact_Version #(Required) This will take build number by default, if requires any modification other than 
+    default: ''            #build number we need to pass the value
+  - name: failNoOp   #(Required) This will fail the piupeline execution if no files uploaded to Jfrog artifactory
     default: true
-    # Publish build artifacts
-   # Publish build artifacts to Azure Pipelines or a Windows file share
 stages:
 - stage: Artifactory_Download
   jobs:
@@ -18,22 +16,22 @@ stages:
     variables:
     - group: ${{ parameters.Artifactory_variable_Group }}
     steps:
-     - task: ArtifactoryGenericDownload@2                 #Required when publishLocation == FilePath
+     - task: ArtifactoryGenericDownload@2                 
        displayName: 'Download scanned artifacts from Jfrog'
        inputs:
         connection: ${{ parameters.artifactoryService }}
         specSource: ${{ parameters.specSource }}
-        ${{ if eq(parameters['specSource'], 'taskConfiguration') }}:
+        ${{ if eq(parameters['specSource'], 'taskConfiguration') }}:    # To upload artifacts of same type in a folder or entire folder.
           fileSpec: |
            {
             "files": [
               {
                 "pattern": "$(Download_src_lctn)/${{ parameters.Artifact_version }}/*",
-                "target": "$(Download_dest_lctn)"           #Required when publishLocation == FilePath
+                "target": "$(Download_dest_lctn)"           
               }
             ]
            }
-        ${{ if ne(parameters['specSource'], 'taskConfiguration') }}:
+        ${{ if ne(parameters['specSource'], 'taskConfiguration') }}:     #To upload multiple artifacts from various folders.
           file: $(File_lctn)
         failNoOp: ${{ parameters.failNoOp }}
      - publish: "$(System.DefaultWorkingDirectory)/$(Scanned_artifact_lctn)/${{ parameters.Artifact_version }}"
