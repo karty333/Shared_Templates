@@ -1,22 +1,22 @@
 parameters:
-  - name: sshEndpoint
+  - name: sshEndpoint   #(Required) Name of the SSH service connection to remote server
     default: 'SSH'
-  - name: sourceFolder
+  - name: sourceFolder  #(Required) The source folder path from where contents needs to be copied to the remote machine
     default: '$(Pipeline.Workspace)/ScannedArtifacts/'
-  - name: contents
-    default: '*.war'
-  - name: targetFolder
-    default: '/opt/demo/' 
-  - name: cleanTargetFolder   # Optional
+  - name: contents #(Required) The contents inside the source folder to be copied to remote machine
+    default: '**'
+  - name: targetFolder #(Required) The target folder in remote machine where the source folder contents to be copied over SSH
+    default: ' ' 
+  - name: cleanTargetFolder #(Optional) When we need to clean the traget repository before copying new artifacts
     default: false
-  - name: overwrite           # Optional
+  - name: overwrite  # (Optional) When we just overwrite the contents in target repo with new content instead of cleaning the repo.
     default: true
-  - name: failOnEmptySource      # Optional 
+  - name: failOnEmptySource #(Optional) Pipeline will get failed when the source which is to be copied over SSH is empty
     default: true
-  - name: flattenFolders        # Optional
-    default: true
+  - name: flattenFolders  #(Optional)  the folder structure is not preserved and all the files will be copied into the specified
+    default: true         # target folder on the remote machine.
  # Copy files over SSH
-  # Copy files or build artifacts to a remote machine over SSH   
+ # Copy files or build artifacts to a remote machine over SSH   
  
 stages:
 - stage: CopyArtifacts
@@ -31,7 +31,7 @@ stages:
         sourceFolder: ${{ parameters.sourceFolder }}
         contents: ${{ parameters.contents }}
         targetFolder: ${{ parameters.targetFolder }}
-        cleanTargetFolder: ${{ parameters.cleanTargetFolder }}        # Optional
-        overwrite: ${{ parameters.overwrite }}                         # Optional
-        failOnEmptySource: ${{ parameters.failOnEmptySource }}        # Optional
-        flattenFolders: ${{ parameters.flattenFolders }}         # Optional
+        cleanTargetFolder: ${{ parameters.cleanTargetFolder }}        
+        overwrite: ${{ parameters.overwrite }}                        
+        failOnEmptySource: ${{ parameters.failOnEmptySource }}        
+        flattenFolders: ${{ parameters.flattenFolders }}         
