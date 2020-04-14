@@ -9,6 +9,8 @@ parameters:
     default: ' ' 
   - name: inline
     default: ' '
+  - name: args
+    default: ' '
   - name: failOnStdErr
     default: true
 stages:
