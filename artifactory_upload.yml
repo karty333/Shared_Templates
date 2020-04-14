@@ -1,17 +1,17 @@
 parameters:
-  - name: artifactoryService
+  - name: artifactoryService  #(Required) Service connection name used to communicate with Jfrog artifactory
     default: 'Artifactory'
-  - name: specSource
+  - name: specSource          #(Required) Path of build artifacts to be published to jfrog artifactory
     default: 'taskConfiguration'
-  - name: collectBuildInfo
+  - name: collectBuildInfo #(Required) If we use jfrog Xray feature for artifact scanning
     default: true
-  - name: buildName
+  - name: buildName #(Required) If we use jfrog Xray feature for artifact scanning
     default: $(Build.DefinitionName) 
-  - name: Artifactory_variable_Group
+  - name: Artifactory_variable_Group  #(Required) Contains variables related to Jforg artifactory in variable group
     default: 'Artifactory_Variables' 
-  - name: buildNumber
-    default: $(Build.BuildNumber)
-  - name: failNoOp                     #Optional
+  - name: buildNumber               #(Required) This will take build number by default, if requires any modification other than 
+    default: $(Build.BuildNumber)   #build number we need to pass the value
+  - name: failNoOp  #(Required) This will fail the piupeline execution if no files uploaded to Jfrog artifactory
     default: true
     
     # Publish build artifacts
