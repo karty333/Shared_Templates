@@ -12,16 +12,37 @@ parameters:
   - name: failOnStdErr
     default: true
 stages:
-- stage: ${{ parameters.stage }}
+- stage: Deployment_Dev
   jobs:
-  - deployment: ${{ parameters.job }}
-    pool: 
+  - deployment: dev_deploy
+    pool:
       vmImage: 'Ubuntu-16.04'
-    environment: ${{ parameters.env }}
+    environment: 'dev'
     strategy:
       runOnce:
         deploy:
           steps:
-          - script: echo "hello, dev world !!!"
-          - script: ls -la
+          - script: echo "hello, qa world !!!"
+- stage: Deployment_QA
+  jobs:
+  - deployment: qa_deploy
+    pool:
+      vmImage: 'Ubuntu-16.04'
+    environment: 'qa'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "hello, qa world !!!"
+- stage: Deployment_PROD
+  jobs:
+  - deployment: qa_prod
+    pool:
+      vmImage: 'Ubuntu-16.04'
+    environment: 'PROD'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: echo "hello, prod world !!!"
 
