@@ -20,15 +20,19 @@ parameters:
 stages:
 - stage: ${{ parameters.stage }}
   jobs:
-  - job: ${{ parameters.job }}
-    steps:
-      - task: SSH@0
-        displayName: 'Run shell commands on remote machine'
-        inputs:
-          sshEndpoint: ${{ parameters.sshEndpoint }}
-          runOptions: ${{ parameters.runOptions }}
-          commands: ${{ parameters.commands }}
-          scriptPath: ${{ parameters.scriptPath }}
-          inline: ${{ parameters.inline }}
-          args: ${{ parameters.args }}
-          failOnStdErr: ${{ parameters.failOnStdErr }}
+  - deployment: ${{ parameters.job }}
+    environment: ${{ parameters.env }}
+    strategy:
+      runOnce:
+        deploy:
+           steps:
+             - task: SSH@0
+               displayName: 'Run shell commands on remote machine'
+               inputs:
+                 sshEndpoint: ${{ parameters.sshEndpoint }}
+                 runOptions: ${{ parameters.runOptions }}
+                 commands: ${{ parameters.commands }}
+                 scriptPath: ${{ parameters.scriptPath }}
+                 inline: ${{ parameters.inline }}
+                 args: ${{ parameters.args }}
+                 failOnStdErr: ${{ parameters.failOnStdErr }}
