@@ -13,10 +13,14 @@ parameters:
     default: ' '
   - name: failOnStdErr #(Required) To fail the pipeline when error occurs while executing commands or scripts.
     default: true
+  - name: stage #(Required) To feed the stage namr at runtime
+    default: ' '
+  - name: job #(Required) To feed the stage namr at runtime
+    default: ' '
 stages:
-- stage: Deployment
+- stage: ${{ parameters.stage }}
   jobs:
-  - job: Deployment_Dev
+  - job: ${{ parameters.job }}
     steps:
       - task: SSH@0
         displayName: 'Run shell commands on remote machine'
