@@ -38,6 +38,10 @@ stages:
               {
                 "pattern": "$(Pipeline.Workspace)/$(Upload_src_lctn)",
                 "target": "$(Upload_dest_lctn)"
+              },
+               {
+                "pattern": "$(Pipeline.Workspace)/$(Upload_src_lctn)",
+                "target": "$(Upload_dest_lctn_latest)"
               }
             ]
            }
