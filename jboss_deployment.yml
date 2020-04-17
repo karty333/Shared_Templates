@@ -17,6 +17,8 @@ parameters:
     default: ' '
   - name: job #(Required) To feed the stage namr at runtime
     default: ' '
+  - name: env #(Required) To feed the stage namr at runtime
+    default: ' '
 stages:
 - stage: ${{ parameters.stage }}
   jobs:
