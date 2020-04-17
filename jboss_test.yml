@@ -11,6 +11,12 @@ parameters:
     default: ' '
   - name: failOnStdErr
     default: true
+  - name: stage #(Required) To feed the stage namr at runtime
+    default: ' '
+  - name: job #(Required) To feed the stage namr at runtime
+    default: ' '
+  - name: env #(Required) To feed the stage namr at runtime
+    default: ' '
 stages:
 - stage: Deployment_Dev
   jobs:
