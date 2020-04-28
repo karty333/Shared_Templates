@@ -1,1 +1,50 @@
-[yet to design]
+parameters:
+  - name: solution #(Required) Relative path from the repository root to the sln or csproj file.
+    default: '**/*.sln' 
+  - name: msbuildLocationMethod      #(Optional) Options: version, location
+    default: 'version'
+  - name: msbuildVersion    # Optional. Options: latest, 16.0, 15.0, 14.0, 12.0, 4.0
+    default: 'latest' 
+  - name: msbuildLocation       #(Optional) Optionally supply the path to MSBuild
+    default: ' ' 
+  - name: configuration     #(Optional) Specify the configuration you want to build such as debug or release.
+    default: 'release'  
+  - name: msbuildArguments   #(Optional) Additional arguments passed to MSBuild (on Windows) and xbuild (on macOS).
+    default: ' '
+  - name: clean      #Set to False if you want to make this an incremental build.
+    default: false
+  - name: logProjectEvents  #Optionally record timeline details for each project (Windows only)
+    default: false
+  - name: createLogFile  #Optionally create a log file (Windows only)
+    default: false
+  - name: logFileVerbosity  #Optional log file verbosity
+    default: 'normal'
+stages:
+- stage: Build
+  jobs:
+  - job: MavenBuild
+    variables:
+    - group: Artifactory_Variables
+    steps:
+    - task: MSBuild@1
+      displayName: 'MSBuild'
+      inputs:
+        solution: ${{ parameters.solution }}
+        msbuildLocationMethod: ${{ parameters.msbuildLocationMethod }}
+        msbuildVersion: ${{ parameters.msbuildVersion }}
+        msbuildLocation: ${{ parameters.msbuildLocation }}      
+        configuration: ${{ parameters.configuration }}              
+        msbuildArguments: ${{ parameters.msbuildArguments }}          
+        clean: ${{ parameters.clean }}  
+        logProjectEvents: ${{ parameters.logProjectEvents }}                                         
+        createLogFile: ${{ parameters.createLogFile }}
+        logFileVerbosity: ${{ parameters.logFileVerbosity }}               
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+      inputs:
+       Contents: "$(build_artifact_Path)"
+       TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: $(PlneArtifact_Name)'
+      inputs:
+       ArtifactName: $(PlneArtifact_Name)
