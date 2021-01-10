@@ -1,1 +1,19 @@
+# below command will compare current branch with master branch and fetch the chnaged files
+a="$(git diff --name-only --diff-filter=ACTRM origin/master..)"
+# below command will fetch the change only from the path specified in relative attribute, multiple paths can be specified by using space.
+b="$(git diff --name-only --diff-filter=ACTRM origin/master.. --relative $(path1) $(path2)"
+echo "$a" > file.txt
+mkdir incremental_file_changes
+          
+while read p; do
+echo "$p"
+cp --parents "$p" incremental_file_changes
+done <file.txt
 
+
+git checkout origin/master
+mkdir rollback_file_changes
+while read r; do
+echo "$r"
+cp --parents "$r" rollback_file_changes
+done <file.txt
